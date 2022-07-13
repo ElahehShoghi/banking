@@ -8,7 +8,7 @@ class AccountTest {
     @Test
     fun `should deposit into an account correctly`() {
         val accountTest = Account()
-        accountTest.depodit(1000)
-        assertEquals(1000, accountTest.balance)
+        accountTest.deposit(1000)
+        assertEquals(1000, accountTest.getBalance())
     }
 }
