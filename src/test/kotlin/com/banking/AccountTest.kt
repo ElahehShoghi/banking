@@ -1,8 +1,10 @@
 package com.banking
 
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -15,15 +17,18 @@ class AccountTest {
         account = Account()
     }
 
-    @Test
-    fun `should deposit into an account correctly`() {
-        account.deposit(1000)
-        assertEquals(1000, account.getBalance())
+    companion object {
+        @JvmStatic
+        fun depositAmountArguments() = listOf(
+            Arguments.of(1000, 1000),
+            Arguments.of(500, 1500),
+        )
     }
 
-    @Test
-    fun `should deposit into an account that its balance is more than 0 correctly`() {
-        account.deposit(500)
-        assertEquals(1500, account.getBalance())
+    @MethodSource("depositAmountArguments")
+    @ParameterizedTest
+    fun `should deposit correctly`(depositAmount: Int, expectedBalance: Int) {
+        account.deposit(depositAmount)
+        assertEquals(expectedBalance, account.balance)
     }
 }
