@@ -3,7 +3,7 @@ package com.banking
 class Account(private val printer: StatementPrinter, private val dateProvider: DateProvider) {
 
     fun interface StatementPrinter {
-        operator fun invoke(input: String)
+        operator fun invoke(input: StatementItem)
 
         data class StatementItem(val date: String, val amount: Int, val balance: Int)
     }
@@ -13,7 +13,7 @@ class Account(private val printer: StatementPrinter, private val dateProvider: D
     }
 
     private var balance = 0
-    private val statements: MutableList<String> = mutableListOf("DATE       | AMOUNT  | BALANCE")
+    private val statements: MutableList<StatementPrinter.StatementItem> = mutableListOf("DATE       | AMOUNT  | BALANCE")
 
     fun deposit(amount: Int) {
         balance += amount
